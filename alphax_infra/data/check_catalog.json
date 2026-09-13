@@ -1,0 +1,1032 @@
+{
+  "catalog_version": 1,
+  "generated_for": "alphax_infra 0.1.0",
+  "notice": "Control references are identifiers only. No standard text is reproduced. Applicability of any framework to a given customer is an assessor decision, not a property of this catalogue.",
+  "checks": [
+    {
+      "check_code": "IDN-001",
+      "check_name": "Privileged accounts have a strong second factor registered",
+      "source": "entra",
+      "severity": "Critical",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.5",
+      "ecc_reference": "2-2-3",
+      "description": "Every account holding a privileged directory role must have a phishing-resistant or app-based authentication method registered. SMS and voice alone do not satisfy this check.",
+      "remediation": "Register FIDO2 keys or Microsoft Authenticator for each privileged account, then remove the weak methods. Enforce with a Conditional Access policy scoped to directory roles.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "user.is_privileged",
+            "user.mfa_strong_registered",
+            "user.enabled"
+          ],
+          "source": "entra",
+          "scope": {
+            "op": "and",
+            "of": [
+              {
+                "op": "eq",
+                "fact": "user.is_privileged",
+                "value": true
+              },
+              {
+                "op": "eq",
+                "fact": "user.enabled",
+                "value": true
+              }
+            ]
+          }
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "user.mfa_strong_registered",
+          "value": true
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-002",
+      "check_name": "All enabled accounts have MFA registered",
+      "source": "entra",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.5",
+      "ecc_reference": "2-2-3",
+      "description": "Every enabled member account must have at least one second factor registered.",
+      "remediation": "Run an MFA registration campaign, then enforce registration through a Conditional Access policy before the grace period ends.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "user.mfa_registered",
+            "user.enabled",
+            "user.type"
+          ],
+          "source": "entra",
+          "scope": {
+            "op": "and",
+            "of": [
+              {
+                "op": "eq",
+                "fact": "user.enabled",
+                "value": true
+              },
+              {
+                "op": "eq",
+                "fact": "user.type",
+                "value": "Member"
+              }
+            ]
+          }
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "user.mfa_registered",
+          "value": true
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 95
+      }
+    },
+    {
+      "check_code": "IDN-003",
+      "check_name": "No dormant privileged accounts",
+      "source": "entra",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.18",
+      "ecc_reference": "2-2-3",
+      "description": "A privileged account that has not signed in for 90 days is an unmonitored path into the tenant.",
+      "remediation": "Remove the role assignment or disable the account. Where standing access is genuinely required, move it to Privileged Identity Management with time-bound activation.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "user.is_privileged",
+            "user.last_sign_in",
+            "user.enabled"
+          ],
+          "source": "entra",
+          "scope": {
+            "op": "and",
+            "of": [
+              {
+                "op": "eq",
+                "fact": "user.is_privileged",
+                "value": true
+              },
+              {
+                "op": "eq",
+                "fact": "user.enabled",
+                "value": true
+              }
+            ]
+          }
+        },
+        "predicate": {
+          "op": "not",
+          "of": {
+            "op": "older_than_days",
+            "fact": "user.last_sign_in",
+            "value": 90
+          }
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-004",
+      "check_name": "No dormant enabled standard accounts",
+      "source": "entra",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.18",
+      "ecc_reference": "2-2-4",
+      "description": "Enabled accounts with no sign-in for 180 days should be disabled as part of the access review cycle.",
+      "remediation": "Confirm with the account owner's line manager, then disable rather than delete so audit history is preserved.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "user.last_sign_in",
+            "user.enabled",
+            "user.type"
+          ],
+          "source": "entra",
+          "scope": {
+            "op": "and",
+            "of": [
+              {
+                "op": "eq",
+                "fact": "user.enabled",
+                "value": true
+              },
+              {
+                "op": "eq",
+                "fact": "user.type",
+                "value": "Member"
+              }
+            ]
+          }
+        },
+        "predicate": {
+          "op": "not",
+          "of": {
+            "op": "older_than_days",
+            "fact": "user.last_sign_in",
+            "value": 180
+          }
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 98
+      }
+    },
+    {
+      "check_code": "IDN-005",
+      "check_name": "Global Administrator count is within a defensible range",
+      "source": "entra",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.2",
+      "ecc_reference": "2-2-3",
+      "description": "Fewer than two Global Administrators leaves no break-glass path; more than five is an uncontrolled blast radius. Both fail.",
+      "remediation": "Target two to four permanent Global Administrators, with one cloud-only break-glass account excluded from Conditional Access and monitored for use.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "tenant.global_admin_count"
+          ],
+          "source": "entra"
+        },
+        "predicate": {
+          "op": "and",
+          "of": [
+            {
+              "op": "gte",
+              "fact": "tenant.global_admin_count",
+              "value": 2
+            },
+            {
+              "op": "lte",
+              "fact": "tenant.global_admin_count",
+              "value": 5
+            }
+          ]
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-006",
+      "check_name": "Legacy authentication is blocked",
+      "source": "entra",
+      "severity": "Critical",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.5",
+      "ecc_reference": "2-2-3",
+      "description": "Legacy authentication protocols bypass Conditional Access and MFA entirely. A tenant that has not blocked them has no effective MFA regardless of registration coverage.",
+      "remediation": "Create a Conditional Access policy blocking Exchange ActiveSync and other legacy clients. Review sign-in logs for legacy usage before enforcing.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "ca.blocks_legacy_authentication"
+          ],
+          "source": "entra"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "ca.blocks_legacy_authentication",
+          "value": true
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-007",
+      "check_name": "Conditional Access enforces MFA for privileged roles",
+      "source": "entra",
+      "severity": "Critical",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.2",
+      "ecc_reference": "2-2-3",
+      "description": "Registration is not enforcement. An enabled Conditional Access policy must require MFA for directory role holders.",
+      "remediation": "Create an enabled policy targeting directory roles with the MFA grant control, excluding only the break-glass account.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "ca.requires_mfa_for_privileged"
+          ],
+          "source": "entra"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "ca.requires_mfa_for_privileged",
+          "value": true
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-008",
+      "check_name": "At least one Conditional Access policy is enabled",
+      "source": "entra",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.15",
+      "ecc_reference": "2-2-1",
+      "description": "Policies left in report-only mode provide telemetry, not control.",
+      "remediation": "Move validated report-only policies into enabled state after reviewing their impact reports.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "ca.enabled_policy_count"
+          ],
+          "source": "entra"
+        },
+        "predicate": {
+          "op": "gte",
+          "fact": "ca.enabled_policy_count",
+          "value": 1
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-009",
+      "check_name": "Standard users cannot register applications",
+      "source": "entra",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.15",
+      "ecc_reference": "2-2-1",
+      "description": "Self-service app registration lets any user create a service principal and consent path into tenant data.",
+      "remediation": "Set the default user role permission for application creation to No, and route requests through an approval process.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "policy.users_can_register_applications"
+          ],
+          "source": "entra"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "policy.users_can_register_applications",
+          "value": false
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-010",
+      "check_name": "Guest invitations are restricted",
+      "source": "entra",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.14",
+      "ecc_reference": "2-2-1",
+      "description": "Unrestricted guest invitation allows any member to grant an external identity access to tenant resources.",
+      "remediation": "Set guest invite restrictions so only administrators and users in the Guest Inviter role may invite.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "policy.guest_invite_setting"
+          ],
+          "source": "entra"
+        },
+        "predicate": {
+          "op": "not_in",
+          "fact": "policy.guest_invite_setting",
+          "value": [
+            "everyone"
+          ]
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-011",
+      "check_name": "No application credentials have expired",
+      "source": "entra",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.17",
+      "ecc_reference": "2-2-5",
+      "description": "An expired app secret means either a broken integration nobody noticed or a credential that was silently replaced without decommissioning the old registration.",
+      "remediation": "Review each application with an expired credential, remove the registration if unused, and rotate to certificate-based authentication where the integration is still required.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "app.credential_earliest_expiry",
+            "app.secret_count"
+          ],
+          "source": "entra",
+          "scope": {
+            "op": "gte",
+            "fact": "app.secret_count",
+            "value": 1
+          }
+        },
+        "predicate": {
+          "op": "not",
+          "of": {
+            "op": "older_than_days",
+            "fact": "app.credential_earliest_expiry",
+            "value": 0
+          }
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "IDN-012",
+      "check_name": "Application credentials expire within 12 months",
+      "source": "entra",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.17",
+      "ecc_reference": "2-2-5",
+      "description": "Multi-year app secrets outlive the staff who created them and the change record that justified them.",
+      "remediation": "Cap credential lifetime at 12 months in the app registration policy and automate rotation.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "app.credential_latest_expiry",
+            "app.secret_count"
+          ],
+          "source": "entra",
+          "scope": {
+            "op": "gte",
+            "fact": "app.secret_count",
+            "value": 1
+          }
+        },
+        "predicate": {
+          "op": "not",
+          "of": {
+            "op": "newer_than_days",
+            "fact": "app.credential_latest_expiry",
+            "value": -400
+          }
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 90
+      }
+    },
+    {
+      "check_code": "IDN-013",
+      "check_name": "Directory synchronisation state is known",
+      "source": "entra",
+      "severity": "Low",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.16",
+      "ecc_reference": "2-2-1",
+      "description": "Hybrid identity changes the authoritative source for account lifecycle. The assessment must record which it is.",
+      "remediation": "Record the identity architecture in the assessment scope and confirm which directory owns joiner-mover-leaver.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "tenant.on_premises_sync_enabled"
+          ],
+          "source": "entra"
+        },
+        "predicate": {
+          "op": "exists",
+          "fact": "tenant.on_premises_sync_enabled"
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "END-001",
+      "check_name": "Managed devices report as compliant",
+      "source": "m365",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.1",
+      "ecc_reference": "2-6-1",
+      "description": "Devices enrolled in Intune must evaluate as compliant against an assigned compliance policy.",
+      "remediation": "Triage non-compliant devices by reason. Most resolve to missing encryption, an out-of-date OS, or a stale check-in.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "device.compliance_state",
+            "device.managed"
+          ],
+          "source": "m365",
+          "scope": {
+            "op": "eq",
+            "fact": "device.managed",
+            "value": true
+          }
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "device.compliance_state",
+          "value": "compliant"
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 95
+      }
+    },
+    {
+      "check_code": "END-002",
+      "check_name": "Managed devices have disk encryption enabled",
+      "source": "m365",
+      "severity": "Critical",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.24",
+      "ecc_reference": "2-8-1",
+      "description": "Full-disk encryption on every managed endpoint. This is the control that determines whether a lost laptop is an incident or a notification.",
+      "remediation": "Deploy BitLocker or FileVault through an Intune configuration profile with silent enablement and key escrow to Entra ID.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "device.encrypted",
+            "device.managed"
+          ],
+          "source": "m365",
+          "scope": {
+            "op": "eq",
+            "fact": "device.managed",
+            "value": true
+          }
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "device.encrypted",
+          "value": true
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "END-003",
+      "check_name": "No jailbroken or rooted devices are enrolled",
+      "source": "m365",
+      "severity": "Critical",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.1",
+      "ecc_reference": "2-6-1",
+      "description": "A rooted device cannot enforce any policy applied to it.",
+      "remediation": "Block jailbroken devices in the compliance policy with immediate action, and wipe corporate data from the affected devices.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "device.jailbroken",
+            "device.managed"
+          ],
+          "source": "m365",
+          "scope": {
+            "op": "eq",
+            "fact": "device.managed",
+            "value": true
+          }
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "device.jailbroken",
+          "value": false
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "END-004",
+      "check_name": "Managed devices have checked in recently",
+      "source": "m365",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.9",
+      "ecc_reference": "2-3-1",
+      "description": "A device that has not synced for 30 days is reporting a stale posture. Its compliance verdict cannot be relied on as current evidence.",
+      "remediation": "Investigate devices that have stopped checking in. They are usually decommissioned without being retired from Intune.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "device.last_sync",
+            "device.managed"
+          ],
+          "source": "m365",
+          "scope": {
+            "op": "eq",
+            "fact": "device.managed",
+            "value": true
+          }
+        },
+        "predicate": {
+          "op": "not",
+          "of": {
+            "op": "older_than_days",
+            "fact": "device.last_sync",
+            "value": 30
+          }
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 90
+      }
+    },
+    {
+      "check_code": "END-005",
+      "check_name": "At least one device compliance policy is configured",
+      "source": "m365",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.1",
+      "ecc_reference": "2-6-1",
+      "description": "Enrolment without a compliance policy produces inventory, not control.",
+      "remediation": "Create a baseline compliance policy per platform covering encryption, OS minimum version and screen lock.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "intune.compliance_policy_count"
+          ],
+          "source": "m365"
+        },
+        "predicate": {
+          "op": "gte",
+          "fact": "intune.compliance_policy_count",
+          "value": 1
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "END-006",
+      "check_name": "Device compliance policies require encryption",
+      "source": "m365",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.24",
+      "ecc_reference": "2-8-1",
+      "description": "The compliance policy itself must mandate storage encryption, otherwise compliant status carries no assurance about it.",
+      "remediation": "Enable the storage encryption requirement in each platform compliance policy.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "compliance_policy.storage_require_encryption"
+          ],
+          "source": "m365"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "compliance_policy.storage_require_encryption",
+          "value": true
+        },
+        "aggregate": "exists_one"
+      }
+    },
+    {
+      "check_code": "END-007",
+      "check_name": "Device compliance policies require a passcode",
+      "source": "m365",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.5",
+      "ecc_reference": "2-6-1",
+      "description": "A device passcode requirement must be asserted by policy, not assumed from the platform default.",
+      "remediation": "Enable the password requirement with a minimum length of six in each compliance policy.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "compliance_policy.password_required"
+          ],
+          "source": "m365"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "compliance_policy.password_required",
+          "value": true
+        },
+        "aggregate": "exists_one"
+      }
+    },
+    {
+      "check_code": "CLD-001",
+      "check_name": "No network security group exposes a sensitive port to the internet",
+      "source": "azure",
+      "severity": "Critical",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.20",
+      "ecc_reference": "2-5-1",
+      "description": "Inbound allow rules from any source to management or database ports. This is the highest-yield check in the catalogue and the one most likely to be true on first run.",
+      "remediation": "Replace the rule with a source restricted to a named IP range, or front the service with Azure Bastion or a private endpoint. Remove the rule entirely where the service is not meant to be reachable.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "nsg.sensitive_port_exposed"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "nsg.sensitive_port_exposed",
+          "value": false
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "CLD-002",
+      "check_name": "No network security group allows unrestricted inbound access",
+      "source": "azure",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.20",
+      "ecc_reference": "2-5-1",
+      "description": "Any inbound allow rule whose source is the internet, regardless of port.",
+      "remediation": "Narrow the source to a defined prefix. Where public exposure is intentional, document it as an accepted risk with a compensating control.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "nsg.internet_open_rule_count"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "nsg.internet_open_rule_count",
+          "value": 0
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "CLD-003",
+      "check_name": "Storage accounts deny anonymous blob access",
+      "source": "azure",
+      "severity": "Critical",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.3",
+      "ecc_reference": "2-7-1",
+      "description": "Allowing public blob access means any container in the account can be made world-readable by anyone with write access to it.",
+      "remediation": "Set allowBlobPublicAccess to false at the account level. Serve genuinely public content through a CDN with a dedicated account.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "storage.allow_blob_public_access"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "storage.allow_blob_public_access",
+          "value": false
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "CLD-004",
+      "check_name": "Storage accounts enforce HTTPS-only traffic",
+      "source": "azure",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.24",
+      "ecc_reference": "2-8-1",
+      "description": "Data in transit to storage must be encrypted.",
+      "remediation": "Enable secure transfer required on every storage account. Legacy SMB file share clients are the usual reason this is off.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "storage.https_only"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "storage.https_only",
+          "value": true
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "CLD-005",
+      "check_name": "Storage accounts require TLS 1.2 or higher",
+      "source": "azure",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.24",
+      "ecc_reference": "2-8-2",
+      "description": "TLS 1.0 and 1.1 are deprecated and fail most regulatory baselines.",
+      "remediation": "Set the minimum TLS version to 1.2 on every storage account.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "storage.min_tls_version"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "in",
+          "fact": "storage.min_tls_version",
+          "value": [
+            "TLS1_2",
+            "TLS1_3"
+          ]
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "CLD-006",
+      "check_name": "Storage account network rules default to deny",
+      "source": "azure",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.20",
+      "ecc_reference": "2-5-1",
+      "description": "A storage firewall that defaults to Allow is not a firewall.",
+      "remediation": "Set the network default action to Deny and add explicit virtual network rules or private endpoints.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "storage.network_default_action"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "storage.network_default_action",
+          "value": "Deny"
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 80
+      }
+    },
+    {
+      "check_code": "CLD-007",
+      "check_name": "Storage encryption at rest is enabled for blob and file",
+      "source": "azure",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.24",
+      "ecc_reference": "2-8-1",
+      "description": "Platform encryption should be on by default; this check confirms it has not been altered.",
+      "remediation": "Re-enable service encryption. Investigate why it was changed, because it requires a deliberate action.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "storage.blob_encrypted",
+            "storage.file_encrypted"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "and",
+          "of": [
+            {
+              "op": "eq",
+              "fact": "storage.blob_encrypted",
+              "value": true
+            },
+            {
+              "op": "eq",
+              "fact": "storage.file_encrypted",
+              "value": true
+            }
+          ]
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "CLD-008",
+      "check_name": "Subscription activity logs are exported to durable storage",
+      "source": "azure",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.15",
+      "ecc_reference": "2-12-1",
+      "description": "Without an export, activity log retention is 90 days and there is no forensic record beyond it.",
+      "remediation": "Create a subscription diagnostic setting shipping the activity log to a Log Analytics workspace, with retention set to the contractual or regulatory period.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "subscription.activity_log_exported"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "subscription.activity_log_exported",
+          "value": true
+        },
+        "aggregate": "all_must_pass"
+      }
+    },
+    {
+      "check_code": "CLD-009",
+      "check_name": "Cloud resources carry an ownership tag",
+      "source": "azure",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.9",
+      "ecc_reference": "2-1-3",
+      "description": "An untagged resource has no accountable owner, which blocks every remediation workflow that follows.",
+      "remediation": "Enforce an owner tag through Azure Policy with a deny effect on new resources, and backfill existing ones.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "resource.has_owner_tag"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "resource.has_owner_tag",
+          "value": true
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 90
+      }
+    },
+    {
+      "check_code": "CLD-010",
+      "check_name": "Storage accounts disable shared key access",
+      "source": "azure",
+      "severity": "Medium",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.17",
+      "ecc_reference": "2-2-5",
+      "description": "Shared key access bypasses Entra ID authentication and role-based access control entirely, and the key cannot be attributed to a user.",
+      "remediation": "Disable shared key authorisation and move clients to Entra ID authentication with managed identities.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "storage.allow_shared_key_access"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "eq",
+          "fact": "storage.allow_shared_key_access",
+          "value": false
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 70
+      }
+    },
+    {
+      "check_code": "CLD-011",
+      "check_name": "Cloud resources are deployed only in approved regions",
+      "source": "azure",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.5.23",
+      "ecc_reference": "5-1-3",
+      "description": "Data residency. For a Saudi customer this is a PDPL question before it is an architecture question, and the approved region list belongs in the assessment scope rather than in this check's defaults.",
+      "remediation": "Confirm the approved region list with the customer, enforce it with Azure Policy, and migrate or document any resource outside it.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "resource.location"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "in",
+          "fact": "resource.location",
+          "value": [
+            "uaenorth",
+            "uaecentral",
+            "saudiarabiaeast",
+            "saudiarabiacentral"
+          ]
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 100
+      }
+    },
+    {
+      "check_code": "CLD-012",
+      "check_name": "Storage public network access is disabled",
+      "source": "azure",
+      "severity": "High",
+      "framework": "ISO/IEC 27001:2022",
+      "control": "A.8.20",
+      "ecc_reference": "2-5-1",
+      "description": "Public network access on a storage account exposes its endpoint to the internet even when container ACLs are private.",
+      "remediation": "Set public network access to Disabled and connect through private endpoints.",
+      "auto_create_finding": 1,
+      "is_active": 1,
+      "definition": {
+        "select": {
+          "fact_keys": [
+            "storage.public_network_access"
+          ],
+          "source": "azure"
+        },
+        "predicate": {
+          "op": "not_in",
+          "fact": "storage.public_network_access",
+          "value": [
+            "Enabled"
+          ]
+        },
+        "aggregate": "ratio_at_least",
+        "threshold": 80
+      }
+    }
+  ]
+}

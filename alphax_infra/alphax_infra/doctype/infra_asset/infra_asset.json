@@ -1,0 +1,267 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:AST-{######}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "asset_name",
+  "client",
+  "col_1",
+  "asset_type",
+  "lifecycle_state",
+  "sec_identifiers",
+  "identifiers",
+  "confidence",
+  "sec_technical",
+  "hostname",
+  "ip_address",
+  "os_version",
+  "col_2",
+  "make_model",
+  "serial_number",
+  "location",
+  "sec_provenance",
+  "first_seen",
+  "first_seen_source",
+  "col_3",
+  "last_seen",
+  "last_seen_source",
+  "source_count",
+  "sec_links",
+  "grc_asset",
+  "business_owner",
+  "col_4",
+  "merged_into",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Identity"
+  },
+  {
+   "fieldname": "asset_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Asset Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "asset_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Asset Type",
+   "options": "Server\nEndpoint\nNetwork Device\nFirewall\nIdentity\nCloud Resource\nApplication\nDatabase\nStorage\nOther",
+   "reqd": 1
+  },
+  {
+   "default": "Discovered",
+   "fieldname": "lifecycle_state",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Lifecycle",
+   "options": "Discovered\nConfirmed\nDecommissioned\nIgnored"
+  },
+  {
+   "fieldname": "sec_identifiers",
+   "fieldtype": "Section Break",
+   "label": "Identifiers"
+  },
+  {
+   "fieldname": "identifiers",
+   "fieldtype": "Table",
+   "label": "Identifiers",
+   "options": "Infra Asset Identifier"
+  },
+  {
+   "default": "0",
+   "description": "Derived from the strength of the identifiers held, not from how many sources agree. Weak identifiers alone never produce a high value.",
+   "fieldname": "confidence",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Identity Confidence",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_technical",
+   "fieldtype": "Section Break",
+   "label": "Technical"
+  },
+  {
+   "fieldname": "hostname",
+   "fieldtype": "Data",
+   "label": "Hostname"
+  },
+  {
+   "description": "Recorded as a current attribute, never as identity. Addresses are reassigned.",
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address"
+  },
+  {
+   "fieldname": "os_version",
+   "fieldtype": "Data",
+   "label": "OS / Version"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "make_model",
+   "fieldtype": "Data",
+   "label": "Make / Model"
+  },
+  {
+   "fieldname": "serial_number",
+   "fieldtype": "Data",
+   "label": "Serial Number"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "sec_provenance",
+   "fieldtype": "Section Break",
+   "label": "Provenance"
+  },
+  {
+   "fieldname": "first_seen",
+   "fieldtype": "Datetime",
+   "label": "First Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "first_seen_source",
+   "fieldtype": "Data",
+   "label": "First Seen Source",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Last Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_seen_source",
+   "fieldtype": "Data",
+   "label": "Last Seen Source",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "source_count",
+   "fieldtype": "Int",
+   "label": "Corroborating Sources",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_links",
+   "fieldtype": "Section Break",
+   "label": "Linkage"
+  },
+  {
+   "description": "The consultant-facing register record. Classification and CIA ratings live there and are never overwritten by discovery.",
+   "fieldname": "grc_asset",
+   "fieldtype": "Link",
+   "label": "GRC Asset Inventory",
+   "options": "GRC Asset Inventory",
+   "read_only": 1
+  },
+  {
+   "fieldname": "business_owner",
+   "fieldtype": "Link",
+   "label": "Business Owner",
+   "options": "User"
+  },
+  {
+   "fieldname": "col_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Set when this record was merged. The source record is kept so the merge is reversible.",
+   "fieldname": "merged_into",
+   "fieldtype": "Link",
+   "label": "Merged Into",
+   "options": "Infra Asset",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Asset",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "search_fields": "client,asset_type,hostname,ip_address",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "asset_name",
+ "track_changes": 1
+}

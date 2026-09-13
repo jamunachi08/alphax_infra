@@ -1,0 +1,211 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:COL-{####}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "collector_label",
+  "client",
+  "col_1",
+  "status",
+  "fingerprint",
+  "sec_crypto",
+  "public_key",
+  "enrolment_token_hash",
+  "col_2",
+  "enrolment_expires",
+  "enrolled_on",
+  "sec_runtime",
+  "collector_version",
+  "last_seen",
+  "col_3",
+  "last_sequence",
+  "batches_accepted",
+  "sec_control",
+  "approved_modules",
+  "kill_switch",
+  "col_4",
+  "approved_networks",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Identity"
+  },
+  {
+   "fieldname": "collector_label",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Label",
+   "reqd": 1
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending Enrolment",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending Enrolment\nActive\nSuspended\nRevoked"
+  },
+  {
+   "description": "Derived from the enrolled public key. Uniqueness is enforced in the controller once set \u2014 a unique index would collide on the blank value before enrolment.",
+   "fieldname": "fingerprint",
+   "fieldtype": "Data",
+   "label": "Fingerprint",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_crypto",
+   "fieldtype": "Section Break",
+   "label": "Signing"
+  },
+  {
+   "description": "Submitted once at enrolment. Batches are verified against this key; there is no fallback to unsigned.",
+   "fieldname": "public_key",
+   "fieldtype": "Small Text",
+   "label": "Ed25519 Public Key (base64)"
+  },
+  {
+   "fieldname": "enrolment_token_hash",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Enrolment Token Hash",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enrolment_expires",
+   "fieldtype": "Datetime",
+   "label": "Enrolment Token Expires",
+   "read_only": 1
+  },
+  {
+   "fieldname": "enrolled_on",
+   "fieldtype": "Datetime",
+   "label": "Enrolled On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_runtime",
+   "fieldtype": "Section Break",
+   "label": "Runtime"
+  },
+  {
+   "fieldname": "collector_version",
+   "fieldtype": "Data",
+   "label": "Collector Version",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Last Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Monotonic. A batch at or below this sequence is a replay and is refused.",
+   "fieldname": "last_sequence",
+   "fieldtype": "Int",
+   "label": "Last Accepted Sequence",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "batches_accepted",
+   "fieldtype": "Int",
+   "label": "Batches Accepted",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_control",
+   "fieldtype": "Section Break",
+   "label": "Control"
+  },
+  {
+   "description": "One module key per line. A batch from an unapproved module is rejected, so a compromised collector cannot widen its own scope.",
+   "fieldname": "approved_modules",
+   "fieldtype": "Small Text",
+   "label": "Approved Modules"
+  },
+  {
+   "default": "0",
+   "fieldname": "kill_switch",
+   "fieldtype": "Check",
+   "label": "Kill Switch \u2014 refuse all batches"
+  },
+  {
+   "fieldname": "col_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_networks",
+   "fieldtype": "Small Text",
+   "label": "Authorised CIDR Ranges"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Collector",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "collector_label",
+ "track_changes": 1
+}

@@ -1,0 +1,5 @@
+[pre_model_sync]
+
+[post_model_sync]
+alphax_infra.patches.v0_1_0_bootstrap
+alphax_infra.patches.v0_1_1_reserved_field
