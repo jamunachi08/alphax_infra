@@ -1,0 +1,240 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"hdr\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'>AlphaX Infra \\u2014 discovery and control assessment</span>\", \"col\": 12}}, {\"id\": \"para\", \"type\": \"paragraph\", \"data\": {\"text\": \"Agentless discovery against Microsoft Entra ID, Intune and Azure. Observations feed the same control library, evidence model and client register as AlphaX GRC, so a machine-collected fact and a consultant's screenshot land in one place.<br><br><b>Order of work:</b> record consent \\u2192 configure and enable a connector \\u2192 run discovery \\u2192 review merge proposals \\u2192 evaluate checks \\u2192 review findings. Nothing collects before a consent record is Active.\", \"col\": 12}}, {\"id\": \"sc1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Consent\", \"col\": 3}}, {\"id\": \"sc2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Connectors\", \"col\": 3}}, {\"id\": \"sc3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assets\", \"col\": 3}}, {\"id\": \"sc4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Failing checks\", \"col\": 3}}, {\"id\": \"sp\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"cards\", \"type\": \"card\", \"data\": {\"card_name\": \"Start here\", \"col\": 4}}, {\"id\": \"cards2\", \"type\": \"card\", \"data\": {\"card_name\": \"Discovery\", \"col\": 4}}, {\"id\": \"cards3\", \"type\": \"card\", \"data\": {\"card_name\": \"Estate\", \"col\": 4}}, {\"id\": \"cards4\", \"type\": \"card\", \"data\": {\"card_name\": \"Assessment\", \"col\": 4}}, {\"id\": \"cards5\", \"type\": \"card\", \"data\": {\"card_name\": \"Configuration\", \"col\": 4}}]",
+ "creation": "2026-09-13 00:00:00",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "shield",
+ "idx": 0,
+ "label": "AlphaX Infra",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Start here",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Consent Record",
+   "link_count": 0,
+   "link_to": "Infra Consent Record",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Connector",
+   "link_count": 0,
+   "link_to": "Infra Connector",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Assessment Session",
+   "link_count": 0,
+   "link_to": "Infra Assessment Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Discovery",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Discovery Job",
+   "link_count": 0,
+   "link_to": "Infra Discovery Job",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Discovery Batch",
+   "link_count": 0,
+   "link_to": "Infra Discovery Batch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Collector",
+   "link_count": 0,
+   "link_to": "Infra Collector",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Access Log",
+   "link_count": 0,
+   "link_to": "Infra Access Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Estate",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Asset",
+   "link_count": 0,
+   "link_to": "Infra Asset",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Merge Proposal",
+   "link_count": 0,
+   "link_to": "Infra Merge Proposal",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Asset Relationship",
+   "link_count": 0,
+   "link_to": "Infra Asset Relationship",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Assessment",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Check",
+   "link_count": 0,
+   "link_to": "Infra Check",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Infra Check Result",
+   "link_count": 0,
+   "link_to": "Infra Check Result",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Configuration",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "AlphaX Infra Settings",
+   "link_count": 0,
+   "link_to": "AlphaX Infra Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "AlphaX Infra",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 40.0,
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "",
+   "label": "Consent",
+   "link_to": "Infra Consent Record",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "",
+   "label": "Connectors",
+   "link_to": "Infra Connector",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "Assets",
+   "link_to": "Infra Asset",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "",
+   "label": "Failing checks",
+   "link_to": "Infra Check Result",
+   "stats_filter": "{\"verdict\": \"Fail\", \"is_latest\": 1}",
+   "type": "DocType"
+  }
+ ],
+ "title": "AlphaX Infra"
+}

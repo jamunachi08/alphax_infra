@@ -1,0 +1,264 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:check_code",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "check_code",
+  "check_name",
+  "is_active",
+  "col_1",
+  "source",
+  "severity",
+  "client",
+  "sec_mapping",
+  "framework",
+  "control",
+  "col_2",
+  "ecc_reference",
+  "applicability_note",
+  "sec_definition",
+  "definition",
+  "definition_version",
+  "sec_actions",
+  "auto_create_finding",
+  "write_evidence",
+  "col_3",
+  "evaluate_daily",
+  "sec_content",
+  "description",
+  "remediation",
+  "sec_results",
+  "last_evaluated",
+  "last_verdict",
+  "col_4",
+  "last_pass_rate"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Identity"
+  },
+  {
+   "fieldname": "check_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Check Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "check_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Check Name",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Source"
+  },
+  {
+   "default": "Medium",
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Severity",
+   "options": "Critical\nHigh\nMedium\nLow\nInformational"
+  },
+  {
+   "description": "Leave blank for a catalogue check that applies to every client.",
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile"
+  },
+  {
+   "fieldname": "sec_mapping",
+   "fieldtype": "Section Break",
+   "label": "Control Mapping"
+  },
+  {
+   "fieldname": "framework",
+   "fieldtype": "Data",
+   "label": "Framework"
+  },
+  {
+   "description": "Identifier only. No standard text is stored or reproduced by this app.",
+   "fieldname": "control",
+   "fieldtype": "Data",
+   "label": "Control Reference"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ecc_reference",
+   "fieldtype": "Data",
+   "label": "NCA ECC Reference"
+  },
+  {
+   "description": "A mapping proposes evidence reuse. It never proves the target control.",
+   "fieldname": "applicability_note",
+   "fieldtype": "Small Text",
+   "label": "Applicability Note"
+  },
+  {
+   "fieldname": "sec_definition",
+   "fieldtype": "Section Break",
+   "label": "Definition"
+  },
+  {
+   "description": "Declarative select / predicate / aggregate. Validated on save; a malformed definition is refused here rather than failing silently during a run.",
+   "fieldname": "definition",
+   "fieldtype": "Code",
+   "label": "Definition",
+   "options": "JSON",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "definition_version",
+   "fieldtype": "Int",
+   "label": "Definition Version",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_actions",
+   "fieldtype": "Section Break",
+   "label": "Actions"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_create_finding",
+   "fieldtype": "Check",
+   "label": "Raise a GRC finding on failure"
+  },
+  {
+   "default": "1",
+   "fieldname": "write_evidence",
+   "fieldtype": "Check",
+   "label": "Write GRC evidence on every verdict"
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "evaluate_daily",
+   "fieldtype": "Check",
+   "label": "Evaluate daily"
+  },
+  {
+   "fieldname": "sec_content",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "remediation",
+   "fieldtype": "Text",
+   "label": "Remediation Guidance"
+  },
+  {
+   "fieldname": "sec_results",
+   "fieldtype": "Section Break",
+   "label": "Last Result"
+  },
+  {
+   "fieldname": "last_evaluated",
+   "fieldtype": "Datetime",
+   "label": "Last Evaluated",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_verdict",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Last Verdict",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_pass_rate",
+   "fieldtype": "Percent",
+   "label": "Last Pass Rate",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Check",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "search_fields": "check_name,framework,control,source",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "check_name",
+ "track_changes": 1
+}

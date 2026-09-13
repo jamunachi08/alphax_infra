@@ -1,0 +1,195 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:JOB-{YYYY}-{#####}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "client",
+  "job_type",
+  "col_1",
+  "connector",
+  "collector",
+  "module",
+  "sec_state",
+  "state",
+  "started_at",
+  "finished_at",
+  "col_2",
+  "observations_received",
+  "observations_new",
+  "observations_unchanged",
+  "assets_touched",
+  "sec_outcome",
+  "error_summary",
+  "metrics"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Job"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "default": "Connector",
+   "fieldname": "job_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Job Type",
+   "options": "Connector\nCollector\nImport"
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.job_type=='Connector'",
+   "fieldname": "connector",
+   "fieldtype": "Link",
+   "label": "Connector",
+   "options": "Infra Connector"
+  },
+  {
+   "depends_on": "eval:doc.job_type=='Collector'",
+   "fieldname": "collector",
+   "fieldtype": "Link",
+   "label": "Collector",
+   "options": "Infra Collector"
+  },
+  {
+   "fieldname": "module",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Module"
+  },
+  {
+   "fieldname": "sec_state",
+   "fieldtype": "Section Break",
+   "label": "State"
+  },
+  {
+   "default": "Queued",
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "State",
+   "options": "Queued\nAuthorised\nRunning\nUploading\nProcessing\nCompleted\nPartial\nFailed\nCancelled"
+  },
+  {
+   "fieldname": "started_at",
+   "fieldtype": "Datetime",
+   "label": "Started",
+   "read_only": 1
+  },
+  {
+   "fieldname": "finished_at",
+   "fieldtype": "Datetime",
+   "label": "Finished",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "observations_received",
+   "fieldtype": "Int",
+   "label": "Observations Received",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "observations_new",
+   "fieldtype": "Int",
+   "label": "New or Changed",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "observations_unchanged",
+   "fieldtype": "Int",
+   "label": "Unchanged",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "assets_touched",
+   "fieldtype": "Int",
+   "label": "Assets Touched",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_outcome",
+   "fieldtype": "Section Break",
+   "label": "Outcome"
+  },
+  {
+   "fieldname": "error_summary",
+   "fieldtype": "Small Text",
+   "label": "Error Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "metrics",
+   "fieldtype": "Code",
+   "label": "Metrics",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Discovery Job",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor"
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 0
+}

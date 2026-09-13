@@ -1,0 +1,240 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:CON-{####}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "connector_name",
+  "client",
+  "col_1",
+  "connector_type",
+  "status",
+  "sec_auth",
+  "tenant_id",
+  "client_id",
+  "client_secret",
+  "col_2",
+  "subscription_id",
+  "base_url",
+  "sec_scope",
+  "consent_reference",
+  "requested_scopes",
+  "scopes",
+  "sec_health",
+  "last_run",
+  "last_result",
+  "col_3",
+  "last_error",
+  "consecutive_failures",
+  "sec_schedule",
+  "enabled",
+  "schedule",
+  "col_4",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Identity"
+  },
+  {
+   "fieldname": "connector_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Connector Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "connector_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Connector Type",
+   "options": "entra\nm365\nazure",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nAwaiting Consent\nActive\nError\nRevoked"
+  },
+  {
+   "fieldname": "sec_auth",
+   "fieldtype": "Section Break",
+   "label": "Authorisation"
+  },
+  {
+   "fieldname": "tenant_id",
+   "fieldtype": "Data",
+   "label": "Directory (Tenant) ID"
+  },
+  {
+   "fieldname": "client_id",
+   "fieldtype": "Data",
+   "label": "Application (Client) ID"
+  },
+  {
+   "description": "Stored in Frappe's encrypted password store. Never written to observations, logs or reports.",
+   "fieldname": "client_secret",
+   "fieldtype": "Password",
+   "label": "Client Secret"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.connector_type=='azure'",
+   "fieldname": "subscription_id",
+   "fieldtype": "Data",
+   "label": "Subscription ID"
+  },
+  {
+   "description": "Override only for a sovereign or government cloud endpoint.",
+   "fieldname": "base_url",
+   "fieldtype": "Data",
+   "label": "Base URL"
+  },
+  {
+   "fieldname": "sec_scope",
+   "fieldtype": "Section Break",
+   "label": "Approved Scope"
+  },
+  {
+   "fieldname": "consent_reference",
+   "fieldtype": "Link",
+   "label": "Consent Record",
+   "options": "Infra Consent Record"
+  },
+  {
+   "description": "Populated from the connector definition. All scopes are read-only by design.",
+   "fieldname": "requested_scopes",
+   "fieldtype": "Small Text",
+   "label": "Requested Scopes",
+   "read_only": 1
+  },
+  {
+   "fieldname": "scopes",
+   "fieldtype": "Table",
+   "label": "Scope Approvals",
+   "options": "Infra Connector Scope"
+  },
+  {
+   "fieldname": "sec_health",
+   "fieldtype": "Section Break",
+   "label": "Health"
+  },
+  {
+   "fieldname": "last_run",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Last Run",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_result",
+   "fieldtype": "Select",
+   "label": "Last Result",
+   "options": "\nSuccess\nPartial\nFailed\nAuth Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_error",
+   "fieldtype": "Small Text",
+   "label": "Last Error",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "consecutive_failures",
+   "fieldtype": "Int",
+   "label": "Consecutive Failures",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_schedule",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "default": "Manual",
+   "fieldname": "schedule",
+   "fieldtype": "Select",
+   "label": "Schedule",
+   "options": "Manual\nDaily\nWeekly"
+  },
+  {
+   "fieldname": "col_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Connector",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  }
+ ],
+ "search_fields": "client,connector_type,status",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "connector_name",
+ "track_changes": 1
+}

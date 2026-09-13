@@ -1,0 +1,206 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:CRS-{YYYY}-{######}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "client",
+  "check",
+  "col_1",
+  "verdict",
+  "is_latest",
+  "sec_counts",
+  "total",
+  "passed",
+  "col_2",
+  "failed",
+  "pass_rate",
+  "sec_detail",
+  "evaluated_at",
+  "as_of",
+  "failing_subjects",
+  "detail",
+  "sec_links",
+  "grc_evidence",
+  "col_3",
+  "grc_finding"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Result"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "check",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Check",
+   "options": "Infra Check",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "verdict",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Verdict",
+   "options": "Pass\nFail\nInconclusive\nNot Applicable"
+  },
+  {
+   "default": "1",
+   "description": "Exactly one latest result per check per client. History is kept, not overwritten.",
+   "fieldname": "is_latest",
+   "fieldtype": "Check",
+   "in_standard_filter": 1,
+   "label": "Latest"
+  },
+  {
+   "fieldname": "sec_counts",
+   "fieldtype": "Section Break",
+   "label": "Counts"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Int",
+   "label": "Subjects Evaluated",
+   "read_only": 1
+  },
+  {
+   "fieldname": "passed",
+   "fieldtype": "Int",
+   "label": "Passed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "failed",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Failed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pass_rate",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Pass Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_detail",
+   "fieldtype": "Section Break",
+   "label": "Detail"
+  },
+  {
+   "fieldname": "evaluated_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Evaluated At",
+   "read_only": 1
+  },
+  {
+   "description": "Set to re-run the check against the estate as it was believed at an earlier instant.",
+   "fieldname": "as_of",
+   "fieldtype": "Datetime",
+   "label": "As Of"
+  },
+  {
+   "fieldname": "failing_subjects",
+   "fieldtype": "Code",
+   "label": "Failing Subjects",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "detail",
+   "fieldtype": "Code",
+   "label": "Detail",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_links",
+   "fieldtype": "Section Break",
+   "label": "Linkage"
+  },
+  {
+   "fieldname": "grc_evidence",
+   "fieldtype": "Link",
+   "label": "GRC Evidence",
+   "options": "GRC Evidence",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "grc_finding",
+   "fieldtype": "Link",
+   "label": "GRC Audit Finding",
+   "options": "GRC Audit Finding",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Check Result",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor"
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 0
+}
