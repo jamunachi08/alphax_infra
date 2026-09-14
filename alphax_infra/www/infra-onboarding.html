@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infrastructure Assessment</title>
+<style>
+:root{--ink:#12203a;--muted:#5a6a85;--line:#dfe5ee;--bg:#f5f7fa;--accent:#0b5cad;--ok:#1a7f5a;--warn:#b8860b;--bad:#c0392b}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:760px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:26px;margin:0 0 6px}
+h2{font-size:17px;margin:0}
+.sub{color:var(--muted);margin:0 0 28px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px;margin-bottom:18px}
+.tier{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.num{flex:0 0 28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.num.done{background:var(--ok)} .num.wait{background:var(--muted)}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:12px 22px;border-radius:7px;font-weight:600}
+.btn.off{background:var(--muted);pointer-events:none}
+ul{margin:10px 0;padding-left:20px} li{margin:4px 0}
+.scopes{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:12px 16px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;color:var(--muted)}
+code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:10px 12px;display:block;font-size:12.5px;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+.flag{padding:12px 16px;border-radius:7px;margin-bottom:18px;font-size:14px}
+.flag.ok{background:#eaf6f1;border-left:4px solid var(--ok)}
+.flag.bad{background:#fdf1ef;border-left:4px solid var(--bad)}
+.flag.warn{background:#fdf8e8;border-left:4px solid var(--warn)}
+.live{font-size:13px;color:var(--muted);margin-top:12px}
+hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+{% if invalid %}
+  <h1>This link is not valid</h1>
+  <p class="sub">{{ reason or "It may have expired, or been superseded by a newer one. Ask your assessment contact to reissue it." }}</p>
+{% else %}
+
+  <h1>{{ title }}</h1>
+  <p class="sub">Read-only infrastructure assessment for <strong>{{ organisation }}</strong>{% if purpose %} — {{ purpose }}{% endif %}</p>
+
+  {% if status_flag == "granted" %}
+    <div class="flag ok"><strong>Authorisation received.</strong> Collection has started. This page updates as it progresses; you can close it safely.</div>
+  {% elif status_flag == "failed" %}
+    <div class="flag bad"><strong>Authorisation did not complete.</strong> Nothing was collected. You can try again below, or ask your assessment contact for a fresh link.</div>
+  {% endif %}
+
+  {% if scope_summary %}<div class="card"><h2>Scope</h2><p class="note">{{ scope_summary }}</p></div>{% endif %}
+
+  <!-- TIER 1 -->
+  <div class="card">
+    <div class="tier">
+      <div class="num {% if grant and grant.status == 'Active' %}done{% endif %}">1</div>
+      <div>
+        <h2>Microsoft 365, Entra ID and Azure</h2>
+        <p class="note">One click. Nothing to install, no credential to create or send us.</p>
+      </div>
+    </div>
+
+    {% if grant and grant.status == "Active" %}
+      <div class="flag ok">Connected to <strong>{{ grant.tenant_domain or "your tenant" }}</strong>. Collection is running.</div>
+    {% else %}
+      <p>A Global Administrator signs in with their normal Microsoft account. Microsoft shows you its own permission screen — not ours — and you accept there.</p>
+      <p><strong>Read-only permissions requested:</strong></p>
+      <div class="scopes">{% for s in scopes %}{{ s }}<br>{% endfor %}</div>
+      <p class="note">Every one is read. None permit any change to your tenant.</p>
+      <p style="margin-top:18px">
+        {% if configured %}<a class="btn" href="{{ consent_url }}">Sign in and authorise</a>
+        {% else %}<span class="btn off">Not yet configured</span>{% endif %}
+      </p>
+      <p class="note">You can withdraw this at any time from <em>Enterprise Applications</em> in your own Entra admin centre. Collection stops immediately, without involving us.</p>
+    {% endif %}
+    <div class="live" id="live"></div>
+  </div>
+
+  <!-- TIER 2 -->
+  <div class="card">
+    <div class="tier">
+      <div class="num wait">2</div>
+      <div>
+        <h2>On-premises infrastructure</h2>
+        <p class="note">Active Directory, servers, network devices, hypervisors.</p>
+      </div>
+    </div>
+    <p>A web page cannot reach inside your network — browsers deliberately prevent it, which is what makes the web safe to use. Anything on a private network needs something running inside it.</p>
+    <p>Your administrator runs this once, on any machine that can reach the estate. It connects outward only; no inbound firewall rule is needed.</p>
+    <code>Ask your assessment contact to issue a collector enrolment token,
+then run the collector with it inside your network.</code>
+    <p class="note">The collector reads configuration only. It makes no changes, and you can stop it at any time.</p>
+  </div>
+
+  <!-- TIER 3 -->
+  <div class="card">
+    <div class="tier">
+      <div class="num wait">3</div>
+      <div>
+        <h2>Everything else</h2>
+        <p class="note">Policies, procedures, training records, supplier agreements.</p>
+      </div>
+    </div>
+    <p>Some controls cannot be discovered by any tool, because they are about what your organisation does rather than how a system is configured. Those become a short questionnaire, filtered to only what discovery could not already answer.</p>
+  </div>
+
+  <hr>
+  <div class="card">
+    <h2>What is never collected</h2>
+    <ul>{% for n in not_collected %}<li>{{ n }}</li>{% endfor %}</ul>
+    <p class="note">Findings are reviewed by a qualified assessor before they reach any report. Nothing here is treated as a conclusion about your compliance on its own.</p>
+  </div>
+
+<script>
+(function(){
+  var s = {{ session_name | tojson }};
+  var el = document.getElementById('live');
+  if(!el) return;
+  function poll(){
+    fetch('/api/method/alphax_infra.oauth.status?session=' + encodeURIComponent(s))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var m = d.message || {};
+        if(!m.known) return;
+        if(m.grant === 'Active' && m.observations){
+          el.textContent = m.observations.toLocaleString() + ' configuration facts collected so far.';
+        } else if(m.grant === 'Granted'){
+          el.textContent = 'Authorisation received. Waiting for Microsoft to finish provisioning access…';
+        } else if(m.grant === 'Failed'){
+          el.textContent = 'Authorisation was recorded but access could not be established. Your assessment contact has been notified.';
+        }
+      })
+      .catch(function(){});
+  }
+  poll(); setInterval(poll, 15000);
+})();
+</script>
+
+{% endif %}
+</div>
+</body>
+</html>

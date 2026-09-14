@@ -1,0 +1,205 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:CNS-{YYYY}-{#####}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "client",
+  "granted_by_name",
+  "granted_by_role",
+  "col_1",
+  "granted_by_email",
+  "granted_on",
+  "valid_until",
+  "sec_scope",
+  "purpose",
+  "authorised_sources",
+  "authorised_networks",
+  "col_2",
+  "data_categories",
+  "retention_note",
+  "sec_evidence",
+  "consent_text_hash",
+  "consent_text",
+  "col_3",
+  "source_ip",
+  "revoked_on",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Consent"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "granted_by_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Granted By (Name)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "granted_by_role",
+   "fieldtype": "Data",
+   "label": "Granted By (Role)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "granted_by_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "granted_on",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Granted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Datetime",
+   "label": "Valid Until"
+  },
+  {
+   "fieldname": "sec_scope",
+   "fieldtype": "Section Break",
+   "label": "What was authorised"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Text",
+   "label": "Purpose",
+   "reqd": 1
+  },
+  {
+   "fieldname": "authorised_sources",
+   "fieldtype": "Small Text",
+   "label": "Authorised Sources",
+   "reqd": 1
+  },
+  {
+   "fieldname": "authorised_networks",
+   "fieldtype": "Small Text",
+   "label": "Authorised CIDR Ranges"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "data_categories",
+   "fieldtype": "Small Text",
+   "label": "Data Categories"
+  },
+  {
+   "fieldname": "retention_note",
+   "fieldtype": "Small Text",
+   "label": "Retention Agreed"
+  },
+  {
+   "fieldname": "sec_evidence",
+   "fieldtype": "Section Break",
+   "label": "Evidence of consent"
+  },
+  {
+   "description": "Hash of the exact wording shown at the time. Proves what was agreed to, not merely that something was.",
+   "fieldname": "consent_text_hash",
+   "fieldtype": "Data",
+   "label": "Consent Text Hash",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consent_text",
+   "fieldtype": "Text",
+   "label": "Consent Text Presented",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_ip",
+   "fieldtype": "Data",
+   "label": "Source IP",
+   "read_only": 1
+  },
+  {
+   "fieldname": "revoked_on",
+   "fieldtype": "Datetime",
+   "label": "Revoked On",
+   "read_only": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nExpired\nRevoked"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Consent Record",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

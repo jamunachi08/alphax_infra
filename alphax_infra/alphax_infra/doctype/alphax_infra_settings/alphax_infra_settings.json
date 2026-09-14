@@ -1,0 +1,252 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_general",
+  "product_label",
+  "enabled",
+  "col_g1",
+  "default_client",
+  "readiness_language",
+  "sec_ingest",
+  "require_signed_batches",
+  "max_batch_observations",
+  "col_i1",
+  "replay_window_minutes",
+  "max_clock_skew_seconds",
+  "sec_correlation",
+  "auto_merge_enabled",
+  "min_confidence_for_scoring",
+  "sec_retention",
+  "historical_observation_days",
+  "check_result_history",
+  "col_r1",
+  "purge_enabled",
+  "sec_mt",
+  "mt_client_id",
+  "mt_client_secret",
+  "col_mt",
+  "mt_redirect_uri",
+  "mt_auto_discover",
+  "sec_ai",
+  "ai_enabled",
+  "ai_endpoint",
+  "ai_model",
+  "ai_allow_external"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_general",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "default": "AlphaX Infra",
+   "description": "Shown on reports and the customer portal. Set a market-facing name here without renaming the app.",
+   "fieldname": "product_label",
+   "fieldtype": "Data",
+   "label": "Product Label"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Module Enabled"
+  },
+  {
+   "fieldname": "col_g1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_client",
+   "fieldtype": "Link",
+   "label": "Default Client",
+   "options": "GRC Client Profile"
+  },
+  {
+   "default": "1",
+   "description": "Reports state readiness, never certification or guaranteed compliance.",
+   "fieldname": "readiness_language",
+   "fieldtype": "Check",
+   "label": "Enforce readiness language in reports"
+  },
+  {
+   "fieldname": "sec_ingest",
+   "fieldtype": "Section Break",
+   "label": "Ingest"
+  },
+  {
+   "default": "1",
+   "description": "When off, unsigned batches are accepted. Intended for a lab bench only; never on a customer site.",
+   "fieldname": "require_signed_batches",
+   "fieldtype": "Check",
+   "label": "Require signed collector batches"
+  },
+  {
+   "default": "20000",
+   "fieldname": "max_batch_observations",
+   "fieldtype": "Int",
+   "label": "Max Observations per Batch"
+  },
+  {
+   "fieldname": "col_i1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "15",
+   "description": "A batch whose collected_at falls outside this window of server time is rejected.",
+   "fieldname": "replay_window_minutes",
+   "fieldtype": "Int",
+   "label": "Replay Window (minutes)"
+  },
+  {
+   "default": "300",
+   "fieldname": "max_clock_skew_seconds",
+   "fieldtype": "Int",
+   "label": "Tolerated Clock Skew (seconds)"
+  },
+  {
+   "fieldname": "sec_correlation",
+   "fieldtype": "Section Break",
+   "label": "Correlation"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_merge_enabled",
+   "fieldtype": "Check",
+   "label": "Auto-merge on authoritative identifier match"
+  },
+  {
+   "default": "45",
+   "description": "Assets below this confidence are excluded from score denominators until reviewed, rather than silently inflating or deflating coverage.",
+   "fieldname": "min_confidence_for_scoring",
+   "fieldtype": "Int",
+   "label": "Minimum asset confidence counted in scoring"
+  },
+  {
+   "fieldname": "sec_retention",
+   "fieldtype": "Section Break",
+   "label": "Retention"
+  },
+  {
+   "default": "400",
+   "fieldname": "historical_observation_days",
+   "fieldtype": "Int",
+   "label": "Retain superseded observations (days)"
+  },
+  {
+   "default": "730",
+   "fieldname": "check_result_history",
+   "fieldtype": "Int",
+   "label": "Retain check results (days)"
+  },
+  {
+   "fieldname": "col_r1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "purge_enabled",
+   "fieldtype": "Check",
+   "label": "Enable scheduled purge"
+  },
+  {
+   "fieldname": "sec_ai",
+   "fieldtype": "Section Break",
+   "label": "AI"
+  },
+  {
+   "default": "0",
+   "fieldname": "ai_enabled",
+   "fieldtype": "Check",
+   "label": "Enable AI assistance"
+  },
+  {
+   "default": "http://127.0.0.1:11434",
+   "description": "Must resolve inside the tenant boundary. Evidence is never sent to an external model.",
+   "fieldname": "ai_endpoint",
+   "fieldtype": "Data",
+   "label": "Local Inference Endpoint"
+  },
+  {
+   "default": "llama3.1:8b",
+   "fieldname": "ai_model",
+   "fieldtype": "Data",
+   "label": "Model"
+  },
+  {
+   "default": "0",
+   "description": "Leave off for any customer with a data residency obligation.",
+   "fieldname": "ai_allow_external",
+   "fieldtype": "Check",
+   "label": "Permit external model endpoints"
+  },
+  {
+   "fieldname": "sec_mt",
+   "fieldtype": "Section Break",
+   "label": "Multi-tenant Onboarding"
+  },
+  {
+   "description": "One application registered in the Neotec tenant, marked multi-tenant, with read-only permissions. Customers consent to it; no customer credential is ever created or held.",
+   "fieldname": "mt_client_id",
+   "fieldtype": "Data",
+   "label": "Application (Client) ID"
+  },
+  {
+   "description": "Neotec's own secret, not a customer's. It is the only credential this flow uses.",
+   "fieldname": "mt_client_secret",
+   "fieldtype": "Password",
+   "label": "Client Secret"
+  },
+  {
+   "fieldname": "col_mt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Leave blank to derive from the site URL. Must match the app registration exactly.",
+   "fieldname": "mt_redirect_uri",
+   "fieldtype": "Data",
+   "label": "Reply URL Override"
+  },
+  {
+   "default": "1",
+   "fieldname": "mt_auto_discover",
+   "fieldtype": "Check",
+   "label": "Start discovery immediately after consent"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "AlphaX Infra Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

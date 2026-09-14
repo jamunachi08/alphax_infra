@@ -1,0 +1,191 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:TGR-{YYYY}-{#####}",
+ "creation": "2026-09-14 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_id",
+  "client",
+  "session",
+  "col1",
+  "provider",
+  "status",
+  "sec_tenant",
+  "tenant_id",
+  "tenant_domain",
+  "col2",
+  "granted_at",
+  "verified_at",
+  "source_ip",
+  "sec_scope",
+  "scopes_requested",
+  "connectors_created",
+  "col3",
+  "detail",
+  "revoked_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_id",
+   "fieldtype": "Section Break",
+   "label": "Grant"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "session",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Assessment Session",
+   "options": "Infra Assessment Session"
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Microsoft",
+   "fieldname": "provider",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Provider",
+   "options": "Microsoft\nGoogle\nAWS"
+  },
+  {
+   "default": "Granted",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Granted\nActive\nDenied\nFailed\nRevoked"
+  },
+  {
+   "fieldname": "sec_tenant",
+   "fieldtype": "Section Break",
+   "label": "Tenant"
+  },
+  {
+   "description": "Returned by Microsoft on the consent redirect. Validated as a GUID before any token request.",
+   "fieldname": "tenant_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tenant ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tenant_domain",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Primary Domain",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "granted_at",
+   "fieldtype": "Datetime",
+   "label": "Consent Received",
+   "read_only": 1
+  },
+  {
+   "description": "When a token was first successfully obtained. Consent recorded but never verified means the grant did not work.",
+   "fieldname": "verified_at",
+   "fieldtype": "Datetime",
+   "label": "Verified",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_ip",
+   "fieldtype": "Data",
+   "label": "Source IP",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_scope",
+   "fieldtype": "Section Break",
+   "label": "Scope"
+  },
+  {
+   "description": "All read-only. Microsoft rendered the authoritative list on its own consent screen.",
+   "fieldname": "scopes_requested",
+   "fieldtype": "Small Text",
+   "label": "Permissions Requested",
+   "read_only": 1
+  },
+  {
+   "fieldname": "connectors_created",
+   "fieldtype": "Small Text",
+   "label": "Connectors Provisioned",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "detail",
+   "fieldtype": "Small Text",
+   "label": "Detail",
+   "read_only": 1
+  },
+  {
+   "fieldname": "revoked_at",
+   "fieldtype": "Datetime",
+   "label": "Revoked",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-14 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Tenant Grant",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor"
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

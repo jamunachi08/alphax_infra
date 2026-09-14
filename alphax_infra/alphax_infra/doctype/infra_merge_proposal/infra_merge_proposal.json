@@ -1,0 +1,159 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:MRG-{#####}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_proposal",
+  "client",
+  "primary_asset",
+  "duplicate_asset",
+  "col_1",
+  "match_score",
+  "matched_identifiers",
+  "tiers",
+  "sec_decision",
+  "status",
+  "decided_by",
+  "col_2",
+  "decided_on",
+  "rationale"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_proposal",
+   "fieldtype": "Section Break",
+   "label": "Proposal"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "primary_asset",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Primary Asset",
+   "options": "Infra Asset",
+   "reqd": 1
+  },
+  {
+   "fieldname": "duplicate_asset",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Proposed Duplicate",
+   "options": "Infra Asset",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "match_score",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Match Score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matched_identifiers",
+   "fieldtype": "Small Text",
+   "label": "Matched Identifiers",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tiers",
+   "fieldtype": "Data",
+   "label": "Identifier Tiers",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_decision",
+   "fieldtype": "Section Break",
+   "label": "Decision"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nMerged\nRejected"
+  },
+  {
+   "fieldname": "decided_by",
+   "fieldtype": "Link",
+   "label": "Decided By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "decided_on",
+   "fieldtype": "Datetime",
+   "label": "Decided On",
+   "read_only": 1
+  },
+  {
+   "description": "Required when rejecting, so a recurring false match can be traced to a reason.",
+   "fieldname": "rationale",
+   "fieldtype": "Small Text",
+   "label": "Rationale"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Merge Proposal",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

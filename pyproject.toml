@@ -1,0 +1,26 @@
+[project]
+name = "alphax_infra"
+dynamic = ["version"]
+description = "IT infrastructure discovery and control assessment for AlphaX GRC"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+authors = [
+    { name = "Neotec Integrated Solutions", email = "support@irsaa.com" }
+]
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["alphax_infra*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "alphax_infra.__version__"}
+
+[tool.bench.frappe-dependencies]
+frappe = ">=15.0.0,<17.0.0"

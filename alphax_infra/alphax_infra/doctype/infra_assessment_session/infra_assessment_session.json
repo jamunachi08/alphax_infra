@@ -1,0 +1,194 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:SES-{YYYY}-{#####}",
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_identity",
+  "client",
+  "session_title",
+  "col_1",
+  "status",
+  "purpose",
+  "sec_invitation",
+  "invitation_token_hash",
+  "invited_email",
+  "col_2",
+  "expires_on",
+  "invited_on",
+  "sec_scope",
+  "frameworks",
+  "scope_summary",
+  "col_3",
+  "exclusions",
+  "sec_consent",
+  "consent_record",
+  "consent_obtained"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_identity",
+   "fieldtype": "Section Break",
+   "label": "Session"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client",
+   "options": "GRC Client Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "session_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nInvited\nConsented\nCollecting\nAssessing\nReview\nApproved\nExpired\nCancelled"
+  },
+  {
+   "default": "Baseline",
+   "fieldname": "purpose",
+   "fieldtype": "Select",
+   "label": "Purpose",
+   "options": "Baseline\nCertification Readiness\nContractual Requirement\nDue Diligence\nRenewal\nContinuous Monitoring"
+  },
+  {
+   "fieldname": "sec_invitation",
+   "fieldtype": "Section Break",
+   "label": "Invitation"
+  },
+  {
+   "description": "Only the hash is stored. A leaked database does not yield a usable invitation link.",
+   "fieldname": "invitation_token_hash",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Invitation Token Hash",
+   "read_only": 1
+  },
+  {
+   "fieldname": "invited_email",
+   "fieldtype": "Data",
+   "label": "Invited Email"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Expires On"
+  },
+  {
+   "fieldname": "invited_on",
+   "fieldtype": "Datetime",
+   "label": "Invited On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_scope",
+   "fieldtype": "Section Break",
+   "label": "Scope"
+  },
+  {
+   "fieldname": "frameworks",
+   "fieldtype": "Small Text",
+   "label": "Selected Frameworks"
+  },
+  {
+   "fieldname": "scope_summary",
+   "fieldtype": "Text",
+   "label": "Scope Summary"
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "exclusions",
+   "fieldtype": "Text",
+   "label": "Exclusions"
+  },
+  {
+   "fieldname": "sec_consent",
+   "fieldtype": "Section Break",
+   "label": "Consent"
+  },
+  {
+   "fieldname": "consent_record",
+   "fieldtype": "Link",
+   "label": "Consent Record",
+   "options": "Infra Consent Record",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consent_obtained",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Consent Obtained",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Assessment Session",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Admin",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Infra Assessor",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Infra Viewer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "session_title",
+ "track_changes": 1
+}

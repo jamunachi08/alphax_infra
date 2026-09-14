@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-13 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "identifier_type",
+  "identifier_value",
+  "normalised_value",
+  "source"
+ ],
+ "fields": [
+  {
+   "columns": 3,
+   "fieldname": "identifier_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "azure_resource_id\naws_arn\nentra_object_id\nintune_device_id\nad_object_guid\nhardware_uuid\nserial_number\nupn\nmail\nfqdn\nmac_address\nhostname\nip_address\nnetbios_name",
+   "reqd": 1
+  },
+  {
+   "columns": 4,
+   "fieldname": "identifier_value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Value",
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "description": "Case and separator normalised. Matching uses this, never the raw value.",
+   "fieldname": "normalised_value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Normalised",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "source",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Source"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-13 00:00:00",
+ "modified_by": "Administrator",
+ "module": "AlphaX Infra",
+ "name": "Infra Asset Identifier",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
